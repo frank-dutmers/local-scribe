@@ -1,0 +1,23 @@
+services:
+  local-scribe:
+    image: ${LOCAL_SCRIBE_IMAGE:?LOCAL_SCRIBE_IMAGE is required}
+    container_name: local-scribe
+    restart: unless-stopped
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    ports:
+      - "${HOST_PORT:-8080}:8080"
+    environment:
+      TRANSCRIBE_JOBS_ROOT: /data/jobs
+      TRANSCRIBE_MODELS_ROOT: ${TRANSCRIBE_MODELS_ROOT:-/opt/hf-home/hub}
+      NLTK_DATA: /opt/nltk_data
+      HF_HOME: /opt/hf-home
+      TRANSFORMERS_CACHE: /opt/hf-home
+      PYANNOTE_DIARIZATION_LOCAL_PATH: /opt/hf-home/hub/models--pyannote--speaker-diarization-3.1
+    volumes:
+      - ${HOST_JOBS_DIR:-./jobs}:/data/jobs
+    gpus: all
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
