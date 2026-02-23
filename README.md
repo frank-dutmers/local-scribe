@@ -26,7 +26,11 @@ bash deploy.sh
 
 This creates `.env` from `.env.example` and exits.
 
-3. Edit `.env` and set `LOCAL_SCRIBE_IMAGE` to your real image.
+3. Edit `.env` if needed. Default image is pinned to:
+
+```bash
+ghcr.io/frank-dutmers/local-scribe:v0.1.0
+```
 4. Run again:
 
 ```bash
@@ -48,7 +52,7 @@ The script pulls the image, starts the service, and waits for health.
 
 ## Variable Notes
 
-- `LOCAL_SCRIBE_IMAGE` (required): published image reference
+- `LOCAL_SCRIBE_IMAGE` (required): published image reference (default pinned to `ghcr.io/frank-dutmers/local-scribe:v0.1.0`)
 - `HOST_JOBS_DIR`: host path for job outputs
 - `LOCAL_UID` / `LOCAL_GID`: optional; auto-detected if blank
 - `TRANSCRIBE_MODELS_ROOT`: defaults to baked-cache in-image path
